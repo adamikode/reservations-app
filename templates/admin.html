@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>Adminisztrációs Felület</title>
+</head>
+<body>
+
+    <h1>Beérkezett Foglalások Listája</h1>
+
+    <table border="1" cellpadding="10" cellspacing="0">
+        <thead>
+            <tr>
+                <th>Sorszám (ID)</th>
+                <th>Vendég Neve</th>
+                <th>Foglalás Dátuma</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for foglalás in foglalások_lista %}
+            <tr>
+                <td>{{ foglalás[0] }}</td> <td>{{ foglalás[1] }}</td> <td>{{ foglalás[2] }}</td> </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <br>
+    <a href="/">Vissza a foglalási űrlaphoz</a>
+
+</body>
+</html>

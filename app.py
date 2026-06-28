@@ -44,6 +44,26 @@ def foglal():
         # Ez a rész fut le, ha a UNIQUE szabály megsérül (vagyis a dátum már létezik)
         return "<h3>Sajnos ez a nap már foglalt! Kérjük, válassz másik dátumot.</h3><a href='/'>Vissza a naptárhoz</a>"
 
+
+@app.route('/admin-titkos-lista')
+def admin_lista():
+    # 1. Kapcsolódunk az adatbázishoz a pontos útvonallal
+    conn = sqlite3.connect('/home/reservations/reservations-app/foglalasok.db')
+    cursor = conn.cursor()
+    
+    # 2. Lekérjük az összes sort a foglalasok táblából
+    cursor.execute('SELECT id, nev, datum FROM foglalasok')
+    adatok = cursor.fetchall() # Ez egy listába gyűjti az összes foglalást
+    
+    # 3. Bezárjuk a kapcsolatot
+    conn.close()
+    
+    # 4. Átadjuk az adatokat az új admin.html sablonnak
+    return render_template('admin.html', foglalások_lista=adatok)
+
+
+
 if __name__ == '__main__':
     init_db() # Program indulásakor ellenőrizzük az adatbázist
     app.run(debug=True)
+	
