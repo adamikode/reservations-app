@@ -6,26 +6,68 @@
 </head>
 <body>
 
-    <h1>Beérkezett Foglalások Listája</h1>
+    <h1>Adminisztrációs Panel</h1>
+    <a href="/">Vissza a főoldalra</a>
+    <hr>
 
-    <table border="1" cellpadding="10" cellspacing="0">
+    <h2>Új szabad időpont hozzáadása</h2>
+    <form action="/admin/uj-idopont" method="POST">
+        <label for="uj_datum">Válassz dátumot és órát:</label>
+        <input type="datetime-local" id="uj_datum" name="uj_datum" required>
+        <button type="submit">Időpont szabaddá tétele</button>
+    </form>
+
+    <hr>
+
+    <h2>Jelenleg szabad (foglalható) időpontjaid</h2>
+    <table border="1" cellpadding="8" cellspacing="0" style="background-color: #f0fff0;">
         <thead>
             <tr>
-                <th>Sorszám (ID)</th>
-                <th>Vendég Neve</th>
-                <th>Foglalás Dátuma</th>
-            </tr>
+                <th>ID</th>
+                <th>Szabad Dátum / Időpont</th>
+                <th>Művelet</th> </tr>
         </thead>
         <tbody>
-            {% for foglalás in foglalások_lista %}
+            {% for idopont in szabad_idopontok %}
             <tr>
-                <td>{{ foglalás[0] }}</td> <td>{{ foglalás[1] }}</td> <td>{{ foglalás[2] }}</td> </tr>
+                <td>{{ idopont[0] }}</td>
+                <td>{{ idopont[1] }}</td>
+                <td>
+                    <a href="/admin/torol/{{ idopont[0] }}" onclick="return confirm('Biztosan törlöd ezt a szabad időpontot?')" style="color: red;">Törlés</a>
+                </td>
+            </tr>
             {% endfor %}
         </tbody>
     </table>
 
-    <br>
-    <a href="/">Vissza a foglalási űrlaphoz</a>
+    <hr>
+
+    <h2>Beérkezett Aktív Foglalások</h2>
+    <table border="1" cellpadding="8" cellspacing="0" style="background-color: #fff5ee;">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Vendég Neve</th>
+                <th>Időpont</th>
+                <th>Kért Szolgáltatás</th>
+                <th>Ár (€)</th>
+                <th>Művelet</th> </tr>
+        </thead>
+        <tbody>
+            {% for foglalás in foglalások_lista %}
+            <tr>
+                <td>{{ foglalás[0] }}</td>
+                <td>{{ foglalás[1] }}</td>
+                <td>{{ foglalás[2] }}</td>
+                <td>{{ foglalás[3] }}</td>
+                <td>{{ foglalás[4] }} €</td>
+                <td>
+                    <a href="/admin/torol/{{ foglalás[5] }}" onclick="return confirm('Biztosan törlöd/lemondod ezt a foglalást?')" style="color: red; font-weight: bold;">Lemondás (Törlés)</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
 </body>
 </html>
